@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { IconHome } from "@tabler/icons-react";
+import { IconHome, IconRocket, IconStars, IconPlanet } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { 
@@ -15,6 +15,10 @@ import {
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { toast } from "sonner";
+import dynamic from "next/dynamic";
+
+// Dynamically import StarBackground with SSR disabled
+const StarBackground = dynamic(() => import("../signup/Star"), { ssr: false });
 
 export default function LoginForm() {
   const router = useRouter();
@@ -168,27 +172,37 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black px-4 py-8 md:px-8 lg:px-12">
-      <div className="relative w-full max-w-md rounded-2xl bg-black/95 p-6 shadow-2xl backdrop-blur-sm sm:p-8">
-        <div className="mb-8 flex items-center justify-between">
+    <div className="flex min-h-screen items-center justify-center px-4 py-8 md:px-8 lg:px-12">
+      <StarBackground/>
+      <div className="relative w-full max-w-md rounded-2xl bg-gray-840 bg-opacity-50 p-6 shadow-2xl backdrop-blur-md border border-gray-800 sm:p-8 overflow-hidden">
+        <div className="absolute inset-0 z-0 bg-gradient-radial from-indigo-500/5 via-transparent to-transparent opacity-70"></div>
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-cyan-300 to-blue-500"></div>
+        <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-blue-500/10 blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-500/10 blur-3xl"></div>
+        
+        <div className="mb-8 flex items-center justify-between relative z-10">
           <Link
             href="/"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-800 text-gray-400 transition-colors hover:border-gray-600 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-700 text-gray-300 transition-colors hover:border-gray-500 hover:text-white hover:bg-gray-900/50"
           >
             <IconHome className="h-4 w-4" />
           </Link>
+          <div className="flex items-center space-x-2">
+            <IconStars className="h-5 w-5 text-cyan-300" />
+            <IconPlanet className="h-4 w-4 text-purple-400" />
+          </div>
         </div>
 
-        <div className="space-y-4 text-center">
-          <h2 className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-2xl font-bold text-transparent sm:text-3xl">
-            Welcome Back
+        <div className="space-y-4 text-center relative z-10">
+          <h2 className="bg-gradient-to-r from-cyan-300 via-white to-purple-400 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl">
+            Return to Manthana
           </h2>
-          <p className="mx-auto max-w-sm text-sm text-gray-400 sm:text-base">
-            Sign in to your account to continue your journey at manthana
+          <p className="mx-auto max-w-sm text-sm text-gray-300 sm:text-base">
+            Sign in to continue your cosmic journey at SMVITM's premier college fest.
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleEmailLogin}>
+        <form className="mt-8 space-y-6 relative z-10" onSubmit={handleEmailLogin}>
           <LabelInputContainer>
             <Label htmlFor="email" className="text-gray-200">
               Email Address
@@ -200,7 +214,7 @@ export default function LoginForm() {
               value={formData.email}
               onChange={handleInputChange}
               disabled={isLoading}
-              className="border-gray-800 bg-gray-950 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-gray-600 focus:ring-1 ring-0 focus:ring-offset-0"
+              className="border-gray-700 bg-gray-900/60 text-white placeholder:text-gray-500 focus:border-cyan-600 focus:ring-cyan-600 focus:ring-1 ring-0 focus:ring-offset-0"
             />
           </LabelInputContainer>
 
@@ -223,24 +237,25 @@ export default function LoginForm() {
               value={formData.password}
               onChange={handleInputChange}
               disabled={isLoading}
-              className="border-gray-800 bg-gray-950 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-gray-600 focus:ring-1 ring-0 focus:ring-offset-0"
+              className="border-gray-700 bg-gray-900/60 text-white placeholder:text-gray-500 focus:border-cyan-600 focus:ring-cyan-600 focus:ring-1 ring-0 focus:ring-offset-0"
             />
           </LabelInputContainer>
 
           <button
-            className="group/btn relative block h-11 w-full overflow-hidden rounded-lg bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 font-medium text-white shadow-lg transition-all duration-300 hover:scale-[1.01] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-black active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
+            className="group/btn relative block h-11 w-full overflow-hidden rounded-lg bg-gradient-to-r from-gray-900 via-slate-800 to-gray-900 font-medium text-white shadow-lg transition-all duration-300 hover:scale-[1.01]  active:scale-[0.99]"
             type="submit"
-            disabled={isLoading}
           >
-            <span className="relative z-10">{isLoading ? "Logging in..." : "Login"}</span>
-            <BottomGradient />
+            <div className="relative z-10 flex items-center justify-center">
+              <IconRocket className="h-4 w-4 mr-2" />
+             <span className="relative z-10">{isLoading ? "Launching..." : "Launch"}</span>
+            </div>
+            <SpaceGradient />
           </button>
-
-          <p className="text-center text-sm text-gray-400">
+          <p className="text-center text-sm text-gray-300">
             Don&apos;t have an account?{" "}
             <Link
               href="/signup"
-              className="font-medium text-white underline-offset-4 hover:underline"
+              className="font-medium text-cyan-300 underline-offset-4 hover:underline"
             >
               Sign up
             </Link>
@@ -251,9 +266,10 @@ export default function LoginForm() {
   );
 }
 
-const BottomGradient = () => {
+// Add this new component for the space gradient effect
+const SpaceGradient = () => {
   return (
-    <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-30" />
+    <div className="absolute inset-0 h-full w-full bg-[radial-gradient(circle_at_top_left,theme(colors.indigo.500/0.3),transparent_40%),radial-gradient(circle_at_bottom_right,theme(colors.purple.500/0.3),transparent_40%)] opacity-0 transition-opacity duration-300 group-hover/btn:opacity-100"></div>
   );
 };
 
@@ -264,5 +280,9 @@ const LabelInputContainer = ({
   children: React.ReactNode;
   className?: string;
 }) => {
-  return <div className={cn("space-y-2", className)}>{children}</div>;
+  return (
+    <div className={cn("space-y-2", className)}>
+      {children}
+    </div>
+  );
 };
