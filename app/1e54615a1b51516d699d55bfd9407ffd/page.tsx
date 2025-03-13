@@ -212,38 +212,94 @@ export default function EventsPage() {
       // Verify password
       if (exportPassword !== ADMIN_EXPORT_PASSWORD) {
         toast.error('Incorrect admin password');
+        setIsExporting(false);
         return;
       }
       
-      // Fetch winners data from all events
-      const response = await fetch('/api/events/winners');
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch winners');
+      // First fetch all events to get their details
+      const eventsResponse = await fetch('/api/events');
+      if (!eventsResponse.ok) {
+        throw new Error('Failed to fetch events');
       }
       
-      const data = await response.json();
-      
-      if (!data.success || !data.winners) {
-        throw new Error(data.error || 'Failed to get winners data');
+      const eventsData = await eventsResponse.json();
+      if (!eventsData.success || !eventsData.events) {
+        throw new Error('Failed to get events data');
       }
-      
-      // Format data for Excel
-      const excelData = data.winners.map((winner: any) => ({
-        'Event Name': winner.eventName,
-        'Position': winner.position,
-        'Student Name': winner.studentName,
-        'USN': winner.usn,
-        'College': winner.college,
-        'Points': winner.points
-      }));
-      
-      // Create worksheet
-      const worksheet = XLSX.utils.json_to_sheet(excelData);
       
       // Create workbook
       const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, 'Winners');
+      
+      // For each event, fetch its winners
+      for (const event of eventsData.events) {
+        try {
+          // Fetch winners for this specific event
+          const winnersResponse = await fetch(`/api/events/${event._id}/winners`);
+          
+          if (!winnersResponse.ok) {
+            // Create empty sheet with error message
+            const emptyWorksheet = XLSX.utils.json_to_sheet([{
+              'Note': `No winners data available for this event`
+            }]);
+            
+            const sheetName = event.title.substring(0, 31).replace(/[\\\/\[\]\*\?:]/g, '');
+            XLSX.utils.book_append_sheet(workbook, emptyWorksheet, sheetName);
+            continue;
+          }
+          
+          const winnersData = await winnersResponse.json();
+          
+          if (!winnersData.success || !winnersData.winners || winnersData.winners.length === 0) {
+            // Create empty sheet with note
+            const emptyWorksheet = XLSX.utils.json_to_sheet([{
+              'Note': 'No winners recorded for this event yet'
+            }]);
+            
+            const sheetName = event.title.substring(0, 31).replace(/[\\\/\[\]\*\?:]/g, '');
+            XLSX.utils.book_append_sheet(workbook, emptyWorksheet, sheetName);
+            continue;
+          }
+          
+          // Format data for Excel
+          const formattedWinners = winnersData.winners.map((winner: any) => ({
+            'Name': winner.userName || '',
+            'Email': winner.userEmail || '',
+            'College': winner.userCollege || '',
+            'Phone': winner.userPhone || '',
+            'Position': winner.position || '',
+            'Rank': winner.rank || '',
+            'Points': winner.points || 0,
+          }));
+          
+          // Create worksheet for this event
+          const worksheet = XLSX.utils.json_to_sheet(formattedWinners);
+          
+          // Add column widths for better readability
+          const colWidths = [
+            { wch: 25 }, // Name
+            { wch: 30 }, // Email
+            { wch: 25 }, // College
+            { wch: 15 }, // Phone
+            { wch: 10 }, // Position
+            { wch: 15 }, // Rank
+            { wch: 10 }, // Points
+          ];
+          worksheet['!cols'] = colWidths;
+          
+          // Limit sheet name to 31 characters and remove invalid characters
+          const sheetName = event.title.substring(0, 31).replace(/[\\\/\[\]\*\?:]/g, '');
+          XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
+          
+        } catch (eventError) {
+          console.error(`Error processing event ${event.title}:`, eventError);
+          // Add error sheet for this event
+          const errorWorksheet = XLSX.utils.json_to_sheet([{
+            'Error': `Failed to process winners for this event`
+          }]);
+          const sheetName = event.title.substring(0, 31).replace(/[\\\/\[\]\*\?:]/g, '');
+          XLSX.utils.book_append_sheet(workbook, errorWorksheet, sheetName);
+        }
+      }
       
       // Generate Excel file
       const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
@@ -253,7 +309,7 @@ export default function EventsPage() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'Varnotsava_Winners.xlsx';
+      link.download = 'Varnotsava_Event_Winners.xlsx';
       
       // Trigger download
       document.body.appendChild(link);
@@ -263,11 +319,11 @@ export default function EventsPage() {
       // Close modal and show success
       setShowExportModal(false);
       setExportPassword("");
-      toast.success('Winners data exported successfully!');
+      toast.success('Event winners exported successfully!');
       
     } catch (error) {
       console.error('Export error:', error);
-      toast.error(`Failed to export winners: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      toast.error(`Failed to export data: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsExporting(false);
     }
@@ -601,6 +657,21 @@ export default function EventsPage() {
               </button>
             </motion.div>
           )}
+
+          {/* Add Export Button under pagination */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+            className="flex justify-center mt-6 mb-10"
+          >
+            <button
+              onClick={() => setShowExportModal(true)}
+              className="px-5 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30"
+            >
+              Export Event Winners
+            </button>
+          </motion.div>
         </div>
 
         <AnimatePresence>
@@ -690,16 +761,6 @@ export default function EventsPage() {
           }
         `}</style>
 
-        {/* Add Export Button */}
-        <div className="fixed bottom-6 right-6 z-50">
-          <button
-            onClick={() => setShowExportModal(true)}
-            className="px-5 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg hover:from-purple-500 hover:to-indigo-500 transition-all shadow-lg shadow-purple-500/20 hover:shadow-purple-500/30"
-          >
-            Export Winners
-          </button>
-        </div>
-        
         {/* Export Password Modal */}
         <AnimatePresence>
           {showExportModal && (

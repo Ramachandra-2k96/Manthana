@@ -90,6 +90,7 @@ function Navbar({ className }: { className?: string }) {
               <div className="flex flex-col space-y-6 mt-4">
                 {/* Example: Direct Link (no accordion) */}
                 <MobileDirectLink href="#timeline" label="Time Line" onClick={closeMobileMenu} onNavigate={handleNavigation} />
+                <MobileDirectLink href="/login" label="Login" onClick={closeMobileMenu} onNavigate={handleNavigation} />
               </div>
             </div>
           )}
