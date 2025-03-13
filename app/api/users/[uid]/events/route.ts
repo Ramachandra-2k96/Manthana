@@ -19,7 +19,7 @@ export async function GET(
     }
 
     const client = await clientPromise;
-    const db = client.db("varnothsava");
+    const db = client.db("manthana");
 
     // Find all events this user has participated in
     const userEvents = await db.collection("registrations").find({

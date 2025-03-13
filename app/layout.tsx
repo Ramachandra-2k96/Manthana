@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Varnothsava 2025',
+  title: 'Manthana 2025',
   description: 'Annual celebration of innovation, creativity, and engineering excellence',
 };
 

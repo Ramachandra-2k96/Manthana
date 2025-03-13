@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const client = await clientPromise;
-    const db = client.db("varnothsava");
+    const db = client.db("manthana");
 
     // Validate required fields
     if (!body.userId || !body.eventId) {

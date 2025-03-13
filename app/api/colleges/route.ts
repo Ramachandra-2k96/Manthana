@@ -5,7 +5,7 @@ import clientPromise from "@/lib/mongodb";
 export async function GET(req: NextRequest) {
   try {
     const client = await clientPromise;
-    const db = client.db("varnothsava");
+    const db = client.db("manthana");
 
     // Get colleges sorted by points in descending order
     const colleges = await db.collection("colleges")

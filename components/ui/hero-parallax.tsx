@@ -102,7 +102,7 @@ export const Header = () => {
         animate={{ scale: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        VRANOTHSAVA 2K25
+        MANTHANA 2K25
       </motion.h1>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -127,11 +127,11 @@ export const Header = () => {
                 <h3 className="text-3xl md:text-4xl font-bold text-white mb-2">MARCH</h3>
                 <div className="flex items-center justify-center space-x-2">
                   <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
-                    20
+                    17
                   </span>
                   <span className="text-white text-2xl">-</span>
                   <span className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-pink-500 to-red-500 text-transparent bg-clip-text">
-                    23
+                    18
                   </span>
                 </div>
                 <p className="text-zinc-400 mt-2">2025</p>

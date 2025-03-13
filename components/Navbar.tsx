@@ -89,47 +89,7 @@ function Navbar({ className }: { className?: string }) {
             <div className="fixed inset-0 bg-black/95 pt-16 px-4 overflow-y-auto min-h-screen">
               <div className="flex flex-col space-y-6 mt-4">
                 {/* Example: Direct Link (no accordion) */}
-                <MobileDirectLink href="#about" label="About" onClick={closeMobileMenu} onNavigate={handleNavigation} />
                 <MobileDirectLink href="#timeline" label="Time Line" onClick={closeMobileMenu} onNavigate={handleNavigation} />
-
-                <MobileMenuItem title="Events" onClose={closeMobileMenu}>
-                  <div className="grid grid-cols-1 gap-6 py-2">
-                    <MobileProductItem
-                      title="Technical"
-                      href="/events/#tech"
-                      src="/images/main_event/tech.jpg"
-                      description="Showcase your technical prowess with coding challenges, hackathons, and innovative problem-solving events."
-                      onClick={closeMobileMenu}
-                      onNavigate={handleNavigation}
-                    />
-                    <MobileProductItem
-                      title="Cultural"
-                      href="/events/#cultural"
-                      src="/images/main_event/cultural.jpg"
-                      description="Celebrate creativity with music, dance, drama, and artistic showcases that bring cultures together."
-                      onClick={closeMobileMenu}
-                      onNavigate={handleNavigation}
-                    />
-                    <MobileProductItem
-                      title="General"
-                      href="/events/#general"
-                      src="/images/main_event/general.png"
-                      description="Engage in fun and thought-provoking competitions that test your wit, knowledge, and spontaneity."
-                      onClick={closeMobileMenu}
-                      onNavigate={handleNavigation}
-                    />
-                    <MobileProductItem
-                      title="Gaming"
-                      href="/events/#gaming"
-                      src="/images/main_event/game.png"
-                      description="Dive into the ultimate gaming battles with esports tournaments, arcade challenges, and strategy showdowns."
-                      onClick={closeMobileMenu}
-                      onNavigate={handleNavigation}
-                    />
-                  </div>
-                </MobileMenuItem>
-                <MobileDirectLink href="/login" label="Login" onClick={closeMobileMenu} onNavigate={handleNavigation} />
-
               </div>
             </div>
           )}
@@ -139,42 +99,7 @@ function Navbar({ className }: { className?: string }) {
         // Desktop Menu
         // ─────────────────────────────────────────────────────────────────
         <Menu setActive={setActive}>
-          <MenuItem direct href="#about" item="About" setActive={setActive} active={active} onNavigate={handleNavigation} />
           <MenuItem direct href="#timeline" item="Time Line" setActive={setActive} active={active} onNavigate={handleNavigation} />
-          <MenuItem direct href="#gallery" item="Gallery" setActive={setActive} active={active} onNavigate={handleNavigation} />
-
-          <MenuItem setActive={setActive} active={active} item="Events">
-            <div className="text-sm grid grid-cols-2 gap-10 p-4">
-              <ProductItem
-                title="Technical"
-                href="/events/#tech"
-                src="/images/main_event/tech.jpg"
-                description="Showcase your technical prowess with coding challenges, hackathons, and innovative problem-solving events."
-                onNavigate={handleNavigation}
-              />
-              <ProductItem
-                title="Cultural"
-                href="/events/#cultural"
-                src="/images/main_event/cultural.jpg"
-                description="Celebrate creativity with music, dance, drama, and artistic showcases that bring cultures together."
-                onNavigate={handleNavigation}
-              />
-              <ProductItem
-                title="General"
-                href="/events/#general"
-                src="/images/main_event/general.png"
-                description="Engage in fun and thought-provoking competitions that test your wit, knowledge, and spontaneity."
-                onNavigate={handleNavigation}
-              />
-              <ProductItem
-                title="Gaming"
-                href="/events/#gaming"
-                src="/images/main_event/game.png"
-                description="Dive into the ultimate gaming battles with esports tournaments, arcade challenges, and strategy showdowns."
-                onNavigate={handleNavigation}
-              />
-            </div>
-          </MenuItem>
           <MenuItem direct href="/login" item="Login" setActive={setActive} active={active} onNavigate={handleNavigation} />
         </Menu>
       )}

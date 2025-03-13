@@ -184,7 +184,7 @@ export default function LoginForm() {
             Welcome Back
           </h2>
           <p className="mx-auto max-w-sm text-sm text-gray-400 sm:text-base">
-            Sign in to your account to continue your journey at Varnothsava
+            Sign in to your account to continue your journey at manthana
           </p>
         </div>
 

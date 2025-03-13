@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === 'development') {
 
 export const connectToDatabase = async () => {
   const client = await clientPromise
-  const db = client.db("varnothsava")
+  const db = client.db("manthana")
   return { client, db }
 }
 

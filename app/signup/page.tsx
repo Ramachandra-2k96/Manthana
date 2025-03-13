@@ -174,7 +174,7 @@ export default function SignupFormDemo() {
 
         <div className="space-y-4 text-center">
           <h2 className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-2xl font-bold text-transparent sm:text-3xl">
-            Welcome to Varnothsava
+            Welcome to Manthana
           </h2>
           <p className="mx-auto max-w-sm text-sm text-gray-400 sm:text-base">
             Join us at SMVITM's premier college fest celebrating creativity, innovation, and culture.

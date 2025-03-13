@@ -25,10 +25,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     <div className="w-full bg-black font-sans md:px-10" ref={containerRef}>
     <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
       <h2 className="text-lg md:text-4xl mb-4 text-white">
-        Timeline of Varnothsava 2025
+        Timeline of Manthana-25
       </h2>
       <p className="text-gray-400 text-sm md:text-base max-w-sm">
-        Embark on an unforgettable journey at Varnothsava 2025! From March 20th to 23rd, join us for a dynamic blend of events
+        Experience our vibrant college fest Manthana-25! From March 17th to 18th, join us for a dynamic blend of cultural competitions and creative challenges organized by the Extra-curricular cell of SMVITM
       </p>
     </div>
 

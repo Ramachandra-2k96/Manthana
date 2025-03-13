@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const client = await clientPromise;
-    const db = client.db("varnothsava"); // Replace with your DB name
+    const db = client.db("manthana"); // Replace with your DB name
 
     const result = await db.collection("users").insertOne({
       firstname: body.firstname,

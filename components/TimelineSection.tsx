@@ -5,12 +5,13 @@ import { Timeline } from "@/components/ui/timeline";
 export default function TimelineSection() {
   const data = [
     {
-      title: "March 20–21, 2025",
+      title: "March 17, 2025",
       content: (
         <div>
           <p className="text-neutral-100 text-xs md:text-sm font-normal mb-8">
-            Kick off Varnothsava with a vibrant mix of techno-cultural events.
-            Over these two days, enjoy coding challenges, art exhibitions, interactive workshops, and live performances that fuse technology with creativity.
+            Day 1 of Manthana-25 kicks off with a vibrant mix of cultural competitions. 
+            Enjoy solo singing (Raaga Ninada), group singing (Swaranjali), creative arts like Mehandi (Hasthakala) and Hairstyling (Swarnashringara), 
+            and an exciting Ethnic Fashion Walk (Roopasanchara) that showcases our rich cultural heritage.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <Image
@@ -46,11 +47,13 @@ export default function TimelineSection() {
       ),
     },
     {
-      title: "March 22, 2025",
+      title: "March 18, 2025",
       content: (
         <div>
           <p className="text-neutral-100 text-xs md:text-sm font-normal mb-8">
-            Celebrate our Annual Day with grandeur and elegance. Enjoy inspiring keynote speeches, award ceremonies, and a showcase of achievements that highlight the spirit of our college community.
+            Day 2 of Manthana-25 brings even more excitement with creative challenges and performances. 
+            Explore outdoor concept models (Aakarsha), test your skills in Memento Design (Akriti), 
+            embark on a thrilling Treasure Hunt (Dhanveshan), and experience the energy of traditional Tiger Dance (Pili tha Pajje).
           </p>
           <div className="grid grid-cols-2 gap-4">
             <Image
@@ -77,47 +80,6 @@ export default function TimelineSection() {
             <Image
               src="/images/main/IMG_0399.webp"
               alt="Annual Day Celebration 4"
-              width={500}
-              height={500}
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg transition-transform duration-300 hover:scale-105"
-            />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "March 23, 2025",
-      content: (
-        <div>
-          <p className="text-neutral-100 text-xs md:text-sm font-normal mb-8">
-            The grand finale packs a punch! Start your day at the Autoexpo and Alumni Meet, showcasing innovative vehicles and reconnecting with old friends.
-            Then, gear up for an electrifying evening as the renowned band “Thamaraseery churam” takes the stage for an unforgettable performance.
-          </p>
-          <div className="grid grid-cols-2 gap-4">
-            <Image
-              src="/images/main/DSC_0355.webp"
-              alt="Autoexpo & Alumni Meet"
-              width={500}
-              height={500}
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg transition-transform duration-300 hover:scale-105"
-            />
-            <Image
-              src="/images/main/DSC_0018.webp"
-              alt="Autoexpo Display"
-              width={500}
-              height={500}
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg transition-transform duration-300 hover:scale-105"
-            />
-            <Image
-              src="/images/main/IMG_7675.webp"
-              alt="Evening Band Performance"
-              width={500}
-              height={500}
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg transition-transform duration-300 hover:scale-105"
-            />
-            <Image
-              src="/images/mouse-trail/7.jpg"
-              alt="Live Concert Vibes"
               width={500}
               height={500}
               className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-lg transition-transform duration-300 hover:scale-105"

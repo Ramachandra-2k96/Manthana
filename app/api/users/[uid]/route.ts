@@ -10,7 +10,7 @@ export async function POST(
     const { uid } = await context.params; // Awaiting params
     const body = await req.json();
     const client = await clientPromise;
-    const db = client.db("varnothsava");
+    const db = client.db("manthana");
 
     // Check if user exists to preserve existing fields
     const existingUser = await db.collection("users").findOne({ firebaseUid: uid });
@@ -50,7 +50,7 @@ export async function GET(
   try {
     const { uid } = await context.params; // Awaiting params
     const client = await clientPromise;
-    const db = client.db("varnothsava");
+    const db = client.db("manthana");
 
     const user = await db.collection("users").findOne({ firebaseUid: uid });
 

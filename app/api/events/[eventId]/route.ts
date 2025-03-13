@@ -28,7 +28,7 @@ export async function GET(
     }
 
     const client = await clientPromise;
-    const db = client.db("varnothsava");
+    const db = client.db("manthana");
 
     // Try to find the event by ID
     let event;

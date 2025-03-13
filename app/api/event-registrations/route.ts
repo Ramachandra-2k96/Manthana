@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     console.log("Fetching event registrations with params:", { userId, eventId });
     
     const client = await clientPromise;
-    const db = client.db("varnothsava");
+    const db = client.db("manthana");
 
     let query = {};
     

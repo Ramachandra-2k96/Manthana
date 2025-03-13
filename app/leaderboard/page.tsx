@@ -207,7 +207,7 @@ export default function LeaderboardPage() {
           transition={{ duration: 0.6 }}
           className="text-3xl md:text-5xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-fuchsia-500 to-purple-600 drop-shadow-[0_0_10px_rgba(192,38,211,0.3)]"
         >
-          Varnothsava 2025 Leaderboard
+          Manthana 2025 Leaderboard
         </motion.h1>
         
         <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
