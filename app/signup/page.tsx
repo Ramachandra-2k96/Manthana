@@ -5,18 +5,20 @@ import Link from "next/link"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import { IconBrandGoogle, IconHome } from "@tabler/icons-react"
+import { IconHome, IconRocket, IconStars, IconPlanet } from "@tabler/icons-react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import { auth } from "@/lib/firebase" // We'll only need auth from Firebase
+import { auth } from "@/lib/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
+import dynamic from "next/dynamic"
 
-// College options
+// Dynamically import StarBackground with SSR disabled
+const StarBackground = dynamic(() => import("./Star"), { ssr: false })
+
 const COLLEGE_OPTIONS = [
   { value: "smvitm", label: "Shri Madhwa Vadiraja Institute of Technology" },
   { value: "mit", label: "Manipal Institute of Technology" },
-  // Add more colleges as needed
 ]
 
 export default function SignupFormDemo() {
@@ -39,15 +41,13 @@ export default function SignupFormDemo() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    
+
     try {
-      // Basic validation
-      if (!formData.firstname || !formData.lastname || !formData.email || !formData.college) {
-        toast.error("Please fill in all fields")
+      if (!formData.firstname || !formData.email || !formData.college) {
+        toast.error("Please fill in all required fields")
         return
       }
 
-      // Password validation
       if (formData.password.length < 6) {
         toast.error("Password must be at least 6 characters long")
         return
@@ -58,38 +58,30 @@ export default function SignupFormDemo() {
         return
       }
 
-      // Email validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(formData.email)) {
         toast.error("Please enter a valid email address")
         return
       }
 
-      // Create user in Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
       )
 
-      // Get the user object
       const user = userCredential.user
-      
-      // Get the ID token
       const token = await user.getIdToken()
-      
-      // Set the auth-token cookie
+
       document.cookie = `auth-token=${token}; path=/; max-age=3600; SameSite=Strict`
-      
-      // Set the user_info cookie with proper encoding
+
       const userInfo = {
         uid: user.uid,
         email: user.email,
         displayName: user.email ? `${user.email.split("@")[0]}` : "User"
       }
       document.cookie = `user_info=${encodeURIComponent(JSON.stringify(userInfo))}; path=/; max-age=3600; SameSite=Strict`
-      
-      // Send token to session endpoint
+
       const sessionResponse = await fetch("/api/auth/session", {
         method: "POST",
         headers: {
@@ -97,14 +89,13 @@ export default function SignupFormDemo() {
         },
         body: JSON.stringify({ token }),
       })
-      
+
       if (!sessionResponse.ok) {
         throw new Error("Failed to create session")
       }
-      
+
       const { uid } = await sessionResponse.json()
 
-      // Save user details to MongoDB through API route
       const response = await fetch('/api/users', {
         method: 'POST',
         headers: {
@@ -127,7 +118,6 @@ export default function SignupFormDemo() {
       toast.success("Account created successfully!")
       router.push("/dashboard")
     } catch (error: any) {
-      // Enhanced Firebase error handling
       const errorCode = error?.code
       switch (errorCode) {
         case 'auth/email-already-in-use':
@@ -153,7 +143,6 @@ export default function SignupFormDemo() {
           toast.error(error.message || "An unexpected error occurred. Please try again later.")
       }
 
-      // Add error handling for MongoDB save
       if (error.message === 'Failed to save user data') {
         toast.error("Account created but failed to save additional details. Please contact support.")
       }
@@ -161,50 +150,61 @@ export default function SignupFormDemo() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-black px-4 py-8 md:px-8 lg:px-12">
-      <div className="relative w-full max-w-md rounded-2xl bg-black/95 p-6 shadow-2xl backdrop-blur-sm sm:p-8">
-        <div className="mb-8 flex items-center justify-between">
+    <div className="flex min-h-screen items-center justify-center px-4 py-8 md:px-8 lg:px-12">
+      <StarBackground/>
+      <div className="relative w-full max-w-md rounded-2xl bg-gray-840 bg-opacity-50 p-6 shadow-2xl backdrop-blur-md border border-gray-800 sm:p-8 overflow-hidden">
+        <div className="absolute inset-0 z-0 bg-gradient-radial from-indigo-500/5 via-transparent to-transparent opacity-70"></div>
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-cyan-300 to-blue-500"></div>
+        <div className="absolute -top-24 -right-24 h-48 w-48 rounded-full bg-blue-500/10 blur-3xl"></div>
+        <div className="absolute -bottom-24 -left-24 h-48 w-48 rounded-full bg-purple-500/10 blur-3xl"></div>
+        
+        <div className="mb-8 flex items-center justify-between relative z-10">
           <Link
             href="/"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-800 text-gray-400 transition-colors hover:border-gray-600 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-700 text-gray-300 transition-colors hover:border-gray-500 hover:text-white hover:bg-gray-900/50"
           >
             <IconHome className="h-4 w-4" />
           </Link>
+          <div className="flex items-center space-x-2">
+            <IconStars className="h-5 w-5 text-cyan-300" />
+            <IconPlanet className="h-4 w-4 text-purple-400" />
+          </div>
         </div>
 
-        <div className="space-y-4 text-center">
-          <h2 className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-2xl font-bold text-transparent sm:text-3xl">
-            Welcome to Manthana
+        <div className="space-y-4 text-center relative z-10">
+          <h2 className="bg-gradient-to-r from-cyan-300 via-white to-purple-400 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl">
+            Journey to Manthana
           </h2>
-          <p className="mx-auto max-w-sm text-sm text-gray-400 sm:text-base">
-            Join us at SMVITM's premier college fest celebrating creativity, innovation, and culture.
+          <p className="mx-auto max-w-sm text-sm text-gray-300 sm:text-base">
+            Launch into SMVITM's premier college fest celebrating creativity, innovation, and cosmic culture.
           </p>
         </div>
 
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-6 relative z-10" onSubmit={handleSubmit}>
           <div className="grid gap-4 md:grid-cols-2">
             <LabelInputContainer>
-              <Label htmlFor="firstname" className="text-gray-200">
-                First name
+              <Label htmlFor="firstname" className="text-gray-200 flex items-center">
+                First name <span className="text-red-400 ml-1">*</span>
               </Label>
               <Input
                 id="firstname"
                 placeholder="Tyler"
                 type="text"
-                className="border-gray-800 bg-gray-950 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-gray-600 focus:ring-1 ring-0 focus:ring-offset-0"
+                className="border-gray-700 bg-gray-900/60 text-white placeholder:text-gray-500 focus:border-cyan-600 focus:ring-cyan-600 focus:ring-1 ring-0 focus:ring-offset-0"
                 value={formData.firstname}
                 onChange={handleInputChange}
+                required
               />
             </LabelInputContainer>
             <LabelInputContainer>
               <Label htmlFor="lastname" className="text-gray-200">
-                Last name
+                Last name <span className="text-gray-500">(optional)</span>
               </Label>
               <Input
                 id="lastname"
                 placeholder="Durden"
                 type="text"
-                className="border-gray-800 bg-gray-950 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-gray-600 focus:ring-1 ring-0 focus:ring-offset-0"
+                className="border-gray-700 bg-gray-900/60 text-white placeholder:text-gray-500 focus:border-zinc-700/60 focus:ring-zinc-700/60 focus:ring-1 ring-0 focus:ring-offset-0"
                 value={formData.lastname}
                 onChange={handleInputChange}
               />
@@ -212,14 +212,14 @@ export default function SignupFormDemo() {
           </div>
 
           <LabelInputContainer>
-            <Label htmlFor="college" className="text-gray-200">
-              College
+            <Label htmlFor="college" className="text-gray-200 flex items-center">
+              College <span className="text-red-400 ml-1">*</span>
             </Label>
             <select
               id="college"
               value={formData.college}
               onChange={handleInputChange}
-              className="w-full rounded-md border border-gray-800 bg-gray-950 px-3 py-2 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-gray-600 focus:ring-1 ring-0 focus:ring-offset-0"
+              className="w-full rounded-md border border-gray-700 bg-gray-900/60 px-3 py-2 text-white placeholder:text-gray-500 focus:border-cyan-600 focus:ring-cyan-600 focus:ring-1 ring-0 focus:ring-offset-0"
               required
             >
               <option value="">Select your college</option>
@@ -232,73 +232,79 @@ export default function SignupFormDemo() {
           </LabelInputContainer>
 
           <LabelInputContainer>
-            <Label htmlFor="email" className="text-gray-200">
-              Email Address
+            <Label htmlFor="email" className="text-gray-200 flex items-center">
+              Email Address <span className="text-red-400 ml-1">*</span>
             </Label>
             <Input
               id="email"
               placeholder="you@example.com"
               type="email"
-              className="border-gray-800 bg-gray-950 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-gray-600 focus:ring-1 ring-0 focus:ring-offset-0"
+              className="border-gray-700 bg-gray-900/60 text-white placeholder:text-gray-500 focus:border-cyan-600 focus:ring-cyan-600 focus:ring-1 ring-0 focus:ring-offset-0"
               value={formData.email}
               onChange={handleInputChange}
+              required
             />
           </LabelInputContainer>
 
           <LabelInputContainer>
-            <Label htmlFor="password" className="text-gray-200">
-              Password
+            <Label htmlFor="password" className="text-gray-200 flex items-center">
+              Password <span className="text-red-400 ml-1">*</span>
             </Label>
             <Input
               id="password"
               placeholder="••••••••"
               type="password"
-              className="border-gray-800 bg-gray-950 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-gray-600 focus:ring-1 ring-0 focus:ring-offset-0"
+              className="border-gray-700 bg-gray-900/60 text-white placeholder:text-gray-500 focus:border-cyan-600 focus:ring-cyan-600 focus:ring-1 ring-0 focus:ring-offset-0"
               value={formData.password}
               onChange={handleInputChange}
+              required
             />
           </LabelInputContainer>
 
           <LabelInputContainer>
-            <Label htmlFor="password2" className="text-gray-200">
-              Re-enter password
+            <Label htmlFor="password2" className="text-gray-200 flex items-center">
+              Re-enter password <span className="text-red-400 ml-1">*</span>
             </Label>
             <Input
               id="password2"
               placeholder="••••••••"
               type="password"
-              className="border-gray-800 bg-gray-950 text-white placeholder:text-gray-500 focus:border-gray-600 focus:ring-gray-600 focus:ring-1 ring-0 focus:ring-offset-0"
+              className="border-gray-700 bg-gray-900/60 text-white placeholder:text-gray-500 focus:border-cyan-600 focus:ring-cyan-600 focus:ring-1 ring-0 focus:ring-offset-0"
               value={formData.password2}
               onChange={handleInputChange}
+              required
             />
           </LabelInputContainer>
 
           <button
-            className="group/btn relative block h-11 w-full overflow-hidden rounded-lg bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 font-medium text-white shadow-lg transition-all duration-300 hover:scale-[1.01] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-black active:scale-[0.99]"
+            className="group/btn relative block h-11 w-full overflow-hidden rounded-lg bg-gradient-to-r from-gray-900 via-slate-800 to-gray-900 font-medium text-white shadow-lg transition-all duration-300 hover:scale-[1.01] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-black active:scale-[0.99]"
             type="submit"
           >
-            <span className="relative z-10">Sign up</span>
-            <BottomGradient />
+            <div className="relative z-10 flex items-center justify-center">
+              <IconRocket className="h-4 w-4 mr-2" />
+              <span>Launch Account</span>
+            </div>
+            <SpaceGradient />
           </button>
-      
 
-          <p className="text-center text-sm text-gray-400">
+          <p className="text-center text-sm text-gray-300">
             Already have an account?{" "}
-            <Link href="/login" className="font-medium text-white underline-offset-4 hover:underline">
+            <Link href="/login" className="font-medium text-cyan-400 underline-offset-4 hover:underline">
               Login
             </Link>
           </p>
         </form>
       </div>
-    </div>
+      </div>
   )
 }
 
-const BottomGradient = () => {
+const SpaceGradient = () => {
   return (
     <>
-      <span className="absolute inset-x-0 -bottom-px h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition-all duration-500 group-hover/btn:opacity-100" />
-      <span className="absolute inset-x-10 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition-all duration-500 group-hover/btn:opacity-100" />
+      <span className="absolute inset-x-0 -bottom-px h-px w-full bg-gradient-to-r from-transparent via-cyan-400 to-purple-500 opacity-0 transition-all duration-500 group-hover/btn:opacity-100" />
+      <span className="absolute inset-x-10 -bottom-px mx-auto h-px w-1/2 bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-0 blur-sm transition-all duration-500 group-hover/btn:opacity-100" />
+      <span className="absolute top-0 left-0 right-0 h-full w-full bg-gradient-to-br from-cyan-500/5 via-transparent to-purple-500/5 opacity-0 transition-all duration-500 group-hover/btn:opacity-100" />
     </>
   )
 }
