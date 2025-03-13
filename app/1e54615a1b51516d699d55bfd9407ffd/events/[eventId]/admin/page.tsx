@@ -24,11 +24,7 @@ interface RegisteredUser extends User {
   }
 }
 
-export default function EventAdminPage({ 
-  params 
-}: { 
-  params: Promise<{ eventId: string }> 
-}) {
+export default function EventAdminPage({ params }: { params: { eventId: string } }) {
   const router = useRouter();
   const [registeredUsers, setRegisteredUsers] = useState<RegisteredUser[]>([]);
   const [showScanner, setShowScanner] = useState(false);
@@ -41,8 +37,7 @@ export default function EventAdminPage({
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [editMode, setEditMode] = useState(false);
   
-  const resolvedParams = use(params);
-  const eventId = resolvedParams.eventId;
+  const eventId = params.eventId;
 
   useEffect(() => {
     const isAuthenticated = sessionStorage.getItem(`event_auth_${eventId}`);

@@ -26,7 +26,11 @@ type Tag = {
   name: string;
 };
 
-export default function EventsPage() {
+export default function EventAdminPage({ 
+  params 
+}: { 
+  params: { eventId: string } 
+}) {
   const router = useRouter();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,6 +52,9 @@ export default function EventsPage() {
   const [isExporting, setIsExporting] = useState(false);
   
   const ADMIN_EXPORT_PASSWORD = "varnotsava2023"; // Replace with your desired password
+
+  // Access eventId directly from params
+  const eventId = params.eventId;
 
   useEffect(() => {
     const fetchEvents = async () => {
