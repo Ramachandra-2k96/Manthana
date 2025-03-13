@@ -30,7 +30,7 @@ export async function POST() {
           "description": "A solo singing competition featuring Indian film, classical, and folk songs.",
           "title": "RAAGA NINADA (Solo Singing)",
           "tag": "cultural",
-          "src": "/manthana/",
+          "src": "/images/manthana/3.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
@@ -56,7 +56,7 @@ export async function POST() {
           "description": "A solo mehendi competition based on the bridal theme.",
           "title": "HASTHAKALA (Mehendi)",
           "tag": "cultural",
-          "src": "",
+          "src": "/images/manthana/5.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
@@ -81,7 +81,7 @@ export async function POST() {
           "description": "A solo hairstyling competition with a focus on creativity and originality.",
           "title": "SWARNASHRINGARA (Hairstyle)",
           "tag": "cultural",
-          "src": "",
+          "src": "/images/manthana/7.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
@@ -106,7 +106,7 @@ export async function POST() {
           "description": "A group singing competition featuring filmy songs, allowing instrumental accompaniments.",
           "title": "SWARANJALI (Group Singing Filmy)",
           "tag": "cultural",
-          "src": "",
+          "src": "/images/manthana/9.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
@@ -131,7 +131,7 @@ export async function POST() {
           "description": "A team-based ethnic wear fashion walk competition.",
           "title": "ROOPASANCHARA (Ethnic Walk)",
           "tag": "cultural",
-          "src": "",
+          "src": "/images/manthana/11.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
@@ -157,7 +157,7 @@ export async function POST() {
           "description": "A team-based outdoor concept model competition to enhance campus beauty.",
           "title": "AAKARSHA (Outdoor Concept Model)",
           "tag": "cultural",
-          "src": "",
+          "src": "/images/manthana/13.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
@@ -182,7 +182,7 @@ export async function POST() {
           "description": "A memento design competition focused on originality and creativity.",
           "title": "AKRITI (Memento Design)",
           "tag": "cultural",
-          "src": "",
+          "src": "/images/manthana/19.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
@@ -207,7 +207,7 @@ export async function POST() {
           "description": "A team-based treasure hunt competition with multiple elimination rounds.",
           "title": "DHANVESHAN (Treasure Hunt)",
           "tag": "cultural",
-          "src": "",
+          "src": "/images/manthana/21.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
@@ -230,7 +230,7 @@ export async function POST() {
           "description": "A traditional tiger dance competition with music and props.",
           "title": "PILI THA PAJJE (Tiger Dance)",
           "tag": "cultural",
-          "src": "",
+          "src": "/images/manthana/23.jpg",
           "ctaText": "Know More",
           "ctaLink": "#register",
           "content": `
